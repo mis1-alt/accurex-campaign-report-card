@@ -98,33 +98,43 @@ def _safe_lower_strs(series):
     return [str(v).lower() if pd.notna(v) else '' for v in series.tolist()]
 
 def find_header_row(df, max_scan=6):
-    """Locate the row holding 'product' labels (appears twice: LY block, CY block)."""
+    """Locate the header row. Real Accurex sales files don't label a 'Product' column at all —
+    the only reliable markers are two 'Qty' columns and two 'Amount' columns (one pair per
+    date-range block), so detection keys off those instead."""
     for i in range(min(max_scan, len(df))):
         labels = _safe_lower_strs(df.iloc[i])
-        has_product = any('product' in l for l in labels)
-        has_qty = any('qty' in l or 'quantity' in l for l in labels)
-        if has_product and has_qty:
+        qty_count = sum(1 for l in labels if 'qty' in l or 'quantity' in l)
+        amt_count = sum(1 for l in labels if 'amount' in l or 'value' in l)
+        if qty_count >= 2 and amt_count >= 2:
             return i
     return None
 
 def find_columns(header_row):
-    """Within one header row, find column index groups for each 'product/qty/amount' block,
-    in left-to-right order (first block = Last Year, second block = This Year)."""
+    """Split the header row into contiguous non-blank column blocks (blocks are separated by
+    a blank/NaN header cell, e.g. the spacer column between the LY and CY blocks). Within each
+    block, locate the Qty and Amount columns by label; the product column is whatever column in
+    that block is neither Qty nor Amount (it's usually unlabeled or carries the block's date-range
+    title, not the word 'Product')."""
     labels = _safe_lower_strs(header_row)
-    blocks = []
-    cur = {}
+    blocks, cur = [], []
     for idx, label in enumerate(labels):
-        if 'product' in label:
+        if label == '':
             if cur:
                 blocks.append(cur)
-            cur = {'product': idx}
-        elif 'qty' in label or 'quantity' in label:
-            cur['qty'] = idx
-        elif 'amount' in label or 'value' in label or 'sales' in label:
-            cur['amount'] = idx
+                cur = []
+        else:
+            cur.append(idx)
     if cur:
         blocks.append(cur)
-    return blocks
+
+    result = []
+    for block in blocks:
+        qty_idx = next((idx for idx in block if 'qty' in labels[idx] or 'quantity' in labels[idx]), None)
+        amt_idx = next((idx for idx in block if 'amount' in labels[idx] or 'value' in labels[idx]), None)
+        prod_idx = next((idx for idx in block if idx not in (qty_idx, amt_idx)), None)
+        if qty_idx is not None and amt_idx is not None and prod_idx is not None:
+            result.append({'product': prod_idx, 'qty': qty_idx, 'amount': amt_idx})
+    return result
 
 def parse_sheet(df):
     """Returns (ly_dict, cy_dict) of {product: (qty, amount)}."""
@@ -162,12 +172,35 @@ def parse_sheet(df):
             pass
     return ly, cy
 
-def filter_by_product(data, product_filter):
-    """Optionally restrict parsed rows to the campaign's product (per Tally), substring match."""
+import re
+
+def _tokenize(s):
+    return set(w for w in re.findall(r'[a-z0-9]+', s.lower()) if len(w) >= 3)
+
+def filter_by_product(data, product_filter, min_overlap=0.5):
+    """Restrict parsed rows to the campaign's product. Real sales sheets list reagents/
+    consumables by their own names (e.g. 'Diluent 20L for CBC 360 NEO (RFID)') rather than
+    repeating a brand prefix like 'Acculab', so a plain substring match misses almost
+    everything. Instead: exact substring still matches (cheap, catches literal hits), and
+    otherwise a row matches if at least half of the product filter's significant words
+    (length >= 3) appear in the row name - catches instrument-family consumables without
+    being so loose it pulls in unrelated products."""
     if not product_filter:
         return data
     pf = product_filter.strip().lower()
-    return {p: v for p, v in data.items() if pf in p.lower()}
+    filt_tokens = _tokenize(product_filter)
+    out = {}
+    for p, v in data.items():
+        pl = p.lower()
+        if pf in pl:
+            out[p] = v
+            continue
+        if filt_tokens:
+            row_tokens = _tokenize(p)
+            overlap = len(filt_tokens & row_tokens) / len(filt_tokens)
+            if overlap >= min_overlap:
+                out[p] = v
+    return out
 
 
 # ── AI calls (Anthropic Platform API) ────────────────────────────────────────
@@ -567,7 +600,7 @@ if uploaded and product and goal and idea and usp:
             ly = filter_by_product(ly, product)
             cy = filter_by_product(cy, product)
             if ly or cy:
-                dist_data[sheet] = (ly, cy)
+                dist_data[sheet.strip()] = (ly, cy)
 
     if not dist_data:
         st.warning("No matching rows found for this product across any sheet. "

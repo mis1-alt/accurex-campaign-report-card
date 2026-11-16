@@ -10,9 +10,9 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Mm, Pt, RGBColor
 
-from core.analytics import inr, kpi_tiles
-from . import brand as B
-from .charts import bars, chart_data
+from analytics import inr, kpi_tiles
+import brand as B
+from charts import bars, chart_data
 
 
 def _rgb(h):

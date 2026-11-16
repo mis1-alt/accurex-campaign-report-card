@@ -23,8 +23,12 @@ SEG_COLOURS = {          # segment -> (text colour, background)
 }
 TONES = {"ink": INK, "good": "#1E7B34", "bad": "#B3261E", "blue": BLUE, "orange": ORANGE}
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LOGO = os.path.join(HERE, "assets", "accurex_logo.png")
+_D = os.path.dirname(os.path.abspath(__file__))
+# works in the folder layout (reports/brand.py) and the flat layout (brand.py next to app.py)
+HERE = _D if os.path.exists(os.path.join(_D, "app.py")) else os.path.dirname(_D)
+LOGO = next((p for p in (os.path.join(HERE, "assets", "accurex_logo.png"), os.path.join(HERE, "accurex_logo.png"),
+                         os.path.join(HERE, "accurex_logo (1).png")) if os.path.exists(p)),
+            os.path.join(HERE, "assets", "accurex_logo.png"))
 
 
 def font_paths():

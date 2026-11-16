@@ -19,9 +19,9 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (Image, KeepTogether, PageBreak, Paragraph, SimpleDocTemplate,
                                 Spacer, Table, TableStyle)
 
-from core.analytics import inr, kpi_tiles
-from . import brand as B
-from .charts import cockpit_chart
+from analytics import inr, kpi_tiles
+import brand as B
+from charts import cockpit_chart
 
 W = 182 * mm - 12      # frame width minus reportlab's default 6pt frame padding each side
 C = colors.HexColor

@@ -6,15 +6,15 @@ from datetime import date
 import pandas as pd
 import streamlit as st
 
-from core import pipeline
-from core.ai import AI
-from core.analytics import SEGMENTS, analyse, facts_for_ai, inr, kpi_tiles
-from core.data_reader import (Mapping, ai_select_products, apply_mapping, combine, fuzzy_products, read_file,
+import pipeline
+from ai import AI
+from analytics import SEGMENTS, analyse, facts_for_ai, inr, kpi_tiles
+from data_reader import (Mapping, ai_select_products, apply_mapping, combine, fuzzy_products, read_file,
                               total_checks)
-from reports.brand import BLUE, INK, LOGO, ORANGE, SEG_COLOURS, TONES
-from reports.charts import chart_data
-from reports.office_exports import build_docx, build_tracker
-from reports.pdf_report import build_management, build_playbook
+from brand import BLUE, INK, LOGO, ORANGE, SEG_COLOURS, TONES
+from charts import chart_data
+from office_exports import build_docx, build_tracker
+from pdf_report import build_management, build_playbook
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 st.set_page_config(page_title="Accurex AI Marketing Manager", page_icon="📈", layout="wide")
@@ -44,7 +44,10 @@ ss.setdefault("step", 1)
 # ── Knowledge base ───────────────────────────────────────────────────────────
 @st.cache_data
 def load_kb():
-    with open(os.path.join(HERE, "knowledge", "company.json"), encoding="utf-8") as f:
+    path = os.path.join(HERE, "knowledge", "company.json")
+    if not os.path.exists(path):
+        path = os.path.join(HERE, "company.json")          # flat layout
+    with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 

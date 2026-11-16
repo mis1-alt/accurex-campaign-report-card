@@ -5,7 +5,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
 
-from .brand import ORANGE, INK, GREY, LINE, font_paths  # noqa: E402
+from brand import ORANGE, INK, GREY, LINE, font_paths  # noqa: E402
 
 
 def _font():

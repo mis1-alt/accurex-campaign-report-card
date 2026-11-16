@@ -1,0 +1,79 @@
+{
+  "_note": "Company knowledge the AI always reads. Edit here (or in the app sidebar). Lines marked TODO need Accurex's real details.",
+  "company": {
+    "name": "Accurex Biomedical Pvt. Ltd.",
+    "industry": "In-vitro diagnostics (IVD): instruments, reagents and consumables for clinical laboratories in India. Since 1984.",
+    "business_model": "Accurex sells to distributors (primary sales). Distributors sell to hospitals, pathology labs and diagnostic chains (secondary sales).",
+    "goals": [
+      "TODO: annual revenue goal, e.g. grow total revenue by X% this financial year",
+      "Grow reagent pull-through on every installed instrument",
+      "Expand active distributor base and coverage in under-served HQs",
+      "Build Accurex as a trusted, quality-first Indian IVD brand"
+    ]
+  },
+  "hierarchy": [
+    {"role": "Director", "owns": "Approves campaign budget and targets; reviews the cockpit monthly"},
+    {"role": "Marketing Manager", "owns": "Owns the campaign end to end; weekly review"},
+    {"role": "PMT (Product Management Team)", "owns": "Product content, technical training, creatives brief"},
+    {"role": "Digital Marketing Team", "owns": "Creatives, WhatsApp/LinkedIn posting, scoreboard design"},
+    {"role": "Regional / Area Sales Manager", "owns": "Distributor calls, visits, order follow-up in their HQ"},
+    {"role": "Sales Admin", "owns": "Primary sales data and incentive calculation"},
+    {"role": "MIS", "owns": "Secondary sales data, weekly scoreboard numbers"},
+    {"role": "Application Specialist", "owns": "Demos, installations, lab training"}
+  ],
+  "brand_guide": {
+    "version": "Accurex Brand Guide v1.1",
+    "primary_colour": "Accurex Orange #F28421",
+    "secondary_colour": "Clinical Blue #0376BD (use sparingly: at most ~15% of a layout when paired with orange)",
+    "text_colour": "Black #231F20; grey for secondary text",
+    "background": "White, generous white space",
+    "typeface": "Montserrat (Arial fallback)",
+    "logo": "Orange ACCUREX wordmark with cross symbol and 'Since 1984'; keep clear space, never recolour or stretch",
+    "voice": "Factual, precise, human. Never exclamation marks. Never humour.",
+    "imagery": "Muted palette with an orange accent; candid, natural lab and clinician photography; simple styling; no stock-photo clichés"
+  },
+  "creative_specs": {
+    "WhatsApp post": "1080 x 1080 px, PNG/JPG",
+    "WhatsApp status / Instagram story": "1080 x 1920 px (9:16), keep text inside the centre 1080 x 1420 safe zone",
+    "LinkedIn post": "1200 x 1200 px square, or 1200 x 627 px landscape",
+    "LinkedIn carousel": "1080 x 1350 px per slide, PDF, 5-8 slides",
+    "Short video / reel": "9:16, 15-30 seconds, burnt-in subtitles",
+    "Email header": "600 x 200 px",
+    "Scoreboard / leaderboard": "1080 x 1350 px portrait, updated weekly",
+    "Standee": "2.5 x 6 ft (print, 150 dpi, CMYK)",
+    "Leaflet": "A4 or A5, 2 sides, 300 dpi CMYK",
+    "Distributor training deck": "16:9 slides"
+  },
+  "verticals": [
+    "Hospital laboratories (private and trust hospitals)",
+    "Standalone pathology labs",
+    "Diagnostic chains",
+    "Government hospitals and tenders",
+    "Distributors and their sales teams (trade)"
+  ],
+  "standard_tasks": [
+    "Calling to distributor", "Distributor training / concall", "Scoreboard sharing",
+    "Creatives on WhatsApp group (daily)", "Lab demos", "Incentive calculation", "Weekly review"
+  ],
+  "checklist_structure": ["Back End Activities", "SOP for Campaign", "Execution", "Front End Activities"],
+  "products": [
+    {"name": "Acculab CBC 360 Neo", "category": "Automated hematology analyser (3-part / 5-part: TODO confirm)",
+     "competitor_category": "Hematology",
+     "brief": "TODO: key technical specifications, throughput, sample volume, reagent pack sizes, consumables (e.g. Diluent 20L for CBC 360 NEO (RFID))"},
+    {"name": "Acculab 200", "category": "Clinical chemistry (biochemistry) analyser (TODO: semi- or fully-automated, throughput)",
+     "competitor_category": "Biochemistry",
+     "brief": "Runs the Autopure reagent range: GPT/GOT, creatinine (enzymatic and Jaffe), urea/BUN, HbA1c, lipid profile (cholesterol, HDL, LDL, triglyceride), bilirubin, ALP, CRP, uric acid, amylase, lipase, RF, albumin, total protein, calcium, GGT, LDH, CK-MB, CK-NAC, phosphorus, magnesium, glucose. Instrument list price approx. Rs 3.5 L (from sales data). TODO for PMT: throughput (tests/hour), sample and reagent volume per test, open or closed system, onboard reagent cooling, warranty and service terms."}
+  ],
+  "competitors": [
+    {"company": "Transasia (Erba)", "product": "EM series / Chem series", "category": "Biochemistry"},
+    {"company": "Mindray", "product": "BS series", "category": "Biochemistry"},
+    {"company": "Agappe", "product": "Mispa series (biochemistry)", "category": "Biochemistry"},
+    {"company": "Robonik", "product": "Biochemistry analysers", "category": "Biochemistry"},
+    {"company": "Meril Diagnostics", "product": "Biochemistry analysers", "category": "Biochemistry"},
+    {"company": "Sysmex", "product": "XN-L / XP series", "category": "Hematology"},
+    {"company": "Mindray", "product": "BC series", "category": "Hematology"},
+    {"company": "Horiba", "product": "Yumizen H series", "category": "Hematology"},
+    {"company": "Transasia (Erba)", "product": "H360 / H560", "category": "Hematology"},
+    {"company": "Agappe", "product": "Mispa Count series", "category": "Hematology"}
+  ]
+}
